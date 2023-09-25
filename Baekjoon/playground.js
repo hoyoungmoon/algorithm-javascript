@@ -1,5 +1,7 @@
 const fs = require("fs");
 const input = fs
-  .readFileSync(process.platform === "linux" ? "/dev/stdin" : "./input.txt")
+  .readFileSync(
+    process.platform === "linux" ? "/dev/stdin" : __dirname + "/input.txt"
+  )
   .toString()
   .trim();
