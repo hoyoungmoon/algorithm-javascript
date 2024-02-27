@@ -80,7 +80,6 @@ function mergeSort() {
  */
 function quickSort() {
   const arr = Array.from({ length: 30 }, () => Math.round(Math.random() * 100));
-  console.log("start", arr);
   const sort = (left, right, arr) => {
     if (left >= right) {
       return arr;
@@ -115,3 +114,60 @@ function quickSort() {
 
   console.log("quickSort:", sort(0, arr.length - 1, arr));
 }
+
+/**
+ * 완전이진트리 자료구조 Heap을 이용하여 정렬하는 방식
+ * 가장 큰 몇개의 숫자만 필요한 경우 유용하다
+ */
+function heapSort() {
+  const arr = Array.from({ length: 30 }, () => Math.round(Math.random() * 100));
+  const heap = [];
+  const insertHeap = (n) => {
+    heap.push(n);
+    let position = heap.length;
+    while (position >= 1) {
+      const parent = Math.floor(position / 2);
+      if (heap[position - 1] > heap[parent - 1]) {
+        const tmp = heap[position - 1];
+        heap[position - 1] = heap[parent - 1];
+        heap[parent - 1] = tmp;
+        position = parent;
+      } else {
+        break;
+      }
+    }
+  };
+  const deleteHeap = () => {
+    if (heap.length <= 0) {
+      return null;
+    }
+    const max = heap[0];
+    heap[0] = heap.pop();
+    let position = 1;
+    let child = 2;
+    while (child <= heap.length) {
+      if (heap[child - 1] < heap[child]) {
+        child++;
+      }
+      if (heap[position - 1] < heap[child - 1]) {
+        const tmp = heap[position - 1];
+        heap[position - 1] = heap[child - 1];
+        heap[child - 1] = tmp;
+        position = child;
+        child *= 2;
+      } else {
+        break;
+      }
+    }
+
+    return max;
+  };
+
+  arr.forEach((v) => insertHeap(v));
+  const ans = [];
+  for (let i = 0; i < arr.length; i++) {
+    ans.push(deleteHeap());
+  }
+  console.log("heapSort:", ans);
+}
+heapSort();
